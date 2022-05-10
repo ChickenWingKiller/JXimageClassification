@@ -4,6 +4,8 @@ import numpy as np
 import torch
 import torch.nn as nn
 from PIL import Image, ImageTk
+import pickle
+import datetime
 
 
 class Net(nn.Module):
@@ -80,6 +82,7 @@ class Ui_MainWindow(object):
         self.modelPath = "../Trained Model/net89.pth"
         self.model.load_state_dict(torch.load(self.modelPath, map_location=torch.device('cpu')))
         self.image_path = None
+        self.result = None
 
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
@@ -131,6 +134,7 @@ class Ui_MainWindow(object):
         self.pushButton.clicked.connect(self.open_image)
         # self.pushButton_2.clicked.connect(self.test_fun)
         self.pushButton_2.clicked.connect(self.classify_image)
+        self.pushButton_3.clicked.connect(self.save_record)
 
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
@@ -144,28 +148,36 @@ class Ui_MainWindow(object):
         dir.setFileMode(QFileDialog.ExistingFiles)  # 设置多选
         # dir.setDirectory('X:\\')  # 设置初始路径为C盘
         dir.setDirectory('C:/Users/lyf19/Desktop/Temp/金相研磨图像识别项目/image/train/Pass')  # 设置初始路径为C盘
-        dir.setNameFilter('图片文件(*.jpg *.png *.bmp *.ico *.gif)')# 设置只显示图片文件
-        if dir.exec_(): #判断是否选择了文件
+        dir.setNameFilter('图片文件(*.jpg *.png *.bmp *.ico *.gif)')  # 设置只显示图片文件
+        if dir.exec_():  # 判断是否选择了文件
             # print(dir.selectedFiles())
             self.image_path = dir.selectedFiles()[0]
             image = QtGui.QPixmap(self.image_path)
             self.label_2.setPixmap(image)
-            self.label_2.setScaledContents(True) #自适应图片大小
+            self.label_2.setScaledContents(True)  # 自适应图片大小
 
     def classify_image(self):
         image = Image.open(self.image_path)
-        resized_image = image.resize((224,224),Image.ANTIALIAS)
+        resized_image = image.resize((224, 224), Image.ANTIALIAS)
         image_numpy = np.array(resized_image)
         image_torch = torch.from_numpy(image_numpy)
         image_torch = image_torch[None, :]
         image_torch = image_torch.float()
-        image_torch = image_torch.permute(0,3,1,2)
+        image_torch = image_torch.permute(0, 3, 1, 2)
         output = self.model(image_torch)
-        _, result = torch.max(output,1)
+        _, result = torch.max(output, 1)
         if result == 0:
+            self.result = "合格"
             self.label_3.setText("合格")
         else:
+            self.result = "不合格"
             self.label_3.setText("不合格")
+
+    def save_record(self):
+        one_img_info = {'time': datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'), 'image_name': self.image_path,
+                        'result': self.result}
+        with open('../results_record/results.pickle', 'ab') as file:
+            pickle.dump(one_img_info, file, 1)
 
     def test_fun(self):
         image_path = "../images/test-image.BMP"
