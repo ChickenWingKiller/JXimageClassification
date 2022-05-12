@@ -74,10 +74,11 @@ class Ui_MainWindow(object):
         self.pushButton_3.setText(_translate("MainWindow", "用户管理"))
         self.pushButton_4.setText(_translate("MainWindow", "退出"))
 
-if __name__ == '__main__':
-    app = QtWidgets.QApplication(sys.argv)
-    MainWindow = QtWidgets.QMainWindow()
-    ui = Ui_MainWindow()
-    ui.setupUi(MainWindow)
-    MainWindow.show()
-    sys.exit(app.exec_())
+# if __name__ == '__main__':
+#     app = QtWidgets.QApplication(sys.argv)
+#     app.setStyle("Fusion")
+#     MainWindow = QtWidgets.QMainWindow()
+#     ui = Ui_MainWindow()
+#     ui.setupUi(MainWindow)
+#     MainWindow.show()
+#     sys.exit(app.exec_())
