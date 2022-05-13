@@ -28,6 +28,10 @@ class MainWindow(QtWidgets.QMainWindow, show_records.Ui_MainWindow):
         self.tableWidget.resizeColumnToContents(0)  # 使列宽跟随内容改变
         self.tableWidget.resizeColumnToContents(1)  # 使列宽跟随内容改变
         self.tableWidget.setAlternatingRowColors(True)  # 使表格颜色交错显示
+        self.pushButton.clicked.connect(self.back)
+
+    def back(self):
+        pass
 
 if __name__ == "__main__":
     import sys

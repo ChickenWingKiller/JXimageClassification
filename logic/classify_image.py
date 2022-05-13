@@ -89,11 +89,17 @@ class MainWindow(QtWidgets.QMainWindow, classifier_window.Ui_MainWindow):
         self.pushButton.clicked.connect(self.open_image)
         self.pushButton_2.clicked.connect(self.classify_image)
         self.pushButton_3.clicked.connect(self.save_record)
+        self.pushButton_4.clicked.connect(self.back)
+        # self.setui(self)
 
+    # def setui(self, window):
+    #     # self.setupUi(window)
+    #     pass
     def open_image(self):
         # dir = QtWidgets.QFileDialog() #创建文件对话框
         # dir.setDirectory('X:/') #设置初始路径为X盘
         # print(dir)
+        print(1)
         from PyQt5.QtWidgets import QFileDialog
         dir = QFileDialog()  # 创建文件对话框
         dir.setFileMode(QFileDialog.ExistingFiles)  # 设置多选
@@ -130,6 +136,9 @@ class MainWindow(QtWidgets.QMainWindow, classifier_window.Ui_MainWindow):
         one_img_info = [datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'), image_name, self.result]
         with open('../results_record/results.pickle', 'ab') as file:
             pickle.dump(one_img_info, file, 1)
+
+    def back(self):
+        pass
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
