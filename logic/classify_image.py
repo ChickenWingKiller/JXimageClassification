@@ -8,6 +8,7 @@ import pickle
 import datetime
 from UI import classifier_window
 
+
 class Net(nn.Module):
     def __init__(self):
         super(Net, self).__init__()
@@ -75,6 +76,7 @@ class Net(nn.Module):
         x = self.dense1(x)
         return x
 
+
 class MainWindow(QtWidgets.QMainWindow, classifier_window.Ui_MainWindow):
     def __init__(self, parent=None):
         super(MainWindow, self).__init__(parent)
@@ -90,24 +92,30 @@ class MainWindow(QtWidgets.QMainWindow, classifier_window.Ui_MainWindow):
         self.pushButton_2.clicked.connect(self.classify_image)
         self.pushButton_3.clicked.connect(self.save_record)
         self.pushButton_4.clicked.connect(self.back)
-        # self.setui(self)
 
-    # def setui(self, window):
-    #     # self.setupUi(window)
-    #     pass
+    def setui(self, window):
+        self.setupUi(window)
+        self.model = Net()
+        self.modelPath = "../Trained Model/net89.pth"
+        self.modelPath = "X:\金相研磨图像识别项目\\pythonProject\\Trained Model\\net89.pth"
+        self.model.load_state_dict(torch.load(self.modelPath, map_location=torch.device('cpu')))
+        self.image_path = None
+        self.result = None
+
+        self.pushButton.clicked.connect(self.open_image)
+        self.pushButton_2.clicked.connect(self.classify_image)
+        self.pushButton_3.clicked.connect(self.save_record)
+        self.pushButton_4.clicked.connect(self.back)
+        # pass
+
     def open_image(self):
-        # dir = QtWidgets.QFileDialog() #创建文件对话框
-        # dir.setDirectory('X:/') #设置初始路径为X盘
-        # print(dir)
-        print(1)
         from PyQt5.QtWidgets import QFileDialog
         dir = QFileDialog()  # 创建文件对话框
         dir.setFileMode(QFileDialog.ExistingFiles)  # 设置多选
-        # dir.setDirectory('X:\\')  # 设置初始路径为C盘
         dir.setDirectory('C:/Users/lyf19/Desktop/Temp/金相研磨图像识别项目/image/train/Pass')  # 设置初始路径为C盘
         dir.setNameFilter('图片文件(*.jpg *.png *.bmp *.ico *.gif)')  # 设置只显示图片文件
         if dir.exec_():  # 判断是否选择了文件
-            # print(dir.selectedFiles())
+            print(dir.selectedFiles())
             self.image_path = dir.selectedFiles()[0]
             image = QtGui.QPixmap(self.image_path)
             self.label_2.setPixmap(image)
@@ -134,11 +142,12 @@ class MainWindow(QtWidgets.QMainWindow, classifier_window.Ui_MainWindow):
         path_list = self.image_path.split('/')
         image_name = path_list[-3] + '/' + path_list[-2] + '/' + path_list[-1]
         one_img_info = [datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'), image_name, self.result]
-        with open('../results_record/results.pickle', 'ab') as file:
+        with open('X:\金相研磨图像识别项目\pythonProject\\results_record\\results.pickle', 'ab') as file:
             pickle.dump(one_img_info, file, 1)
 
     def back(self):
         pass
+
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
