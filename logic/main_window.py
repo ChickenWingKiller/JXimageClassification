@@ -16,12 +16,16 @@ class MainWindow(QtWidgets.QMainWindow, main_window.Ui_MainWindow):
         self.setupUi(self)
         self.pushButton.clicked.connect(self.openClassifierWindow)
         self.pushButton_2.clicked.connect(self.openRecordsWindow)
+        self.pushButton_3.clicked.connect(self.openStatisticWindow)
         self.pushButton_4.clicked.connect(self.exit)
 
     def openClassifierWindow(self):
         pass
 
     def openRecordsWindow(self):
+        pass
+
+    def openStatisticWindow(self):
         pass
 
     def exit(self):

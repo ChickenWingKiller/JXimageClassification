@@ -9,7 +9,6 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-import sys
 
 
 class Ui_MainWindow(object):
@@ -71,14 +70,5 @@ class Ui_MainWindow(object):
         self.label.setText(_translate("MainWindow", "<html><head/><body><p align=\"center\"><span style=\" font-size:22pt;\">欢迎来到金相研磨图像识别系统</span></p></body></html>"))
         self.pushButton.setText(_translate("MainWindow", "启动识别器"))
         self.pushButton_2.setText(_translate("MainWindow", "查看记录"))
-        self.pushButton_3.setText(_translate("MainWindow", "用户管理"))
+        self.pushButton_3.setText(_translate("MainWindow", "统计"))
         self.pushButton_4.setText(_translate("MainWindow", "退出"))
-
-# if __name__ == '__main__':
-#     app = QtWidgets.QApplication(sys.argv)
-#     app.setStyle("Fusion")
-#     MainWindow = QtWidgets.QMainWindow()
-#     ui = Ui_MainWindow()
-#     ui.setupUi(MainWindow)
-#     MainWindow.show()
-#     sys.exit(app.exec_())

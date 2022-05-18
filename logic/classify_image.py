@@ -136,9 +136,11 @@ class MainWindow(QtWidgets.QMainWindow, classifier_window.Ui_MainWindow):
             if result == 0:
                 self.result = "合格"
                 self.label_3.setText("合格")
+                self.label_3.setText("<html><head/><body><p><span style=\" font-size:16pt;\">合格</span></p></body></html>")
             else:
                 self.result = "不合格"
                 self.label_3.setText("不合格")
+                self.label_3.setText("<html><head/><body><p><span style=\" font-size:16pt;\">不合格</span></p></body></html>")
 
     def save_record(self):
         if self.image_path != None and self.result != None:
