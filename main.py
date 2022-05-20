@@ -8,7 +8,7 @@ class mainWindow(main_window.MainWindow):
     def openRecordsWindow(self):
         window_2.setui(window)
     def openStatisticWindow(self):
-        window_3.setupUi(window)
+        window_3.setui(window)
     def exit(self):
         window.close()
 

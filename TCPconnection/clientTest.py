@@ -1,4 +1,3 @@
-import requests
 import socket
 
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -8,7 +7,5 @@ port = 9999  # 设置端口号
 s.connect((ip, port))
 while True:
     message = s.recv(1024)
-    # if message != '':
-    # print(message.decode('utf-8'))
-    print(message)
-    s.close()
+    print(message.decode('utf-8'))
+s.close()
