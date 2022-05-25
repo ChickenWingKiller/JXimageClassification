@@ -78,6 +78,7 @@ class Net(nn.Module):
 
 
 class MainWindow(QtWidgets.QMainWindow, classifier_window.Ui_MainWindow):
+    RESULT_STATISTIC = {'合格' : 1, '不合格' : 1}
     def __init__(self, parent=None):
         super(MainWindow, self).__init__(parent)
         self.setupUi(self)
@@ -144,6 +145,10 @@ class MainWindow(QtWidgets.QMainWindow, classifier_window.Ui_MainWindow):
 
     def save_record(self):
         if self.image_path != None and self.result != None:
+            if self.result == '合格':
+                MainWindow.RESULT_STATISTIC['合格'] += 1
+            else:
+                MainWindow.RESULT_STATISTIC['不合格'] += 1
             path_list = self.image_path.split('/')
             image_name = path_list[-3] + '/' + path_list[-2] + '/' + path_list[-1]
             one_img_info = [datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'), image_name, self.result]
