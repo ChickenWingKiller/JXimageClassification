@@ -54,7 +54,7 @@ color: rgb(255, 255, 255);</string>
     <property name="geometry">
      <rect>
       <x>570</x>
-      <y>120</y>
+      <y>250</y>
       <width>200</width>
       <height>50</height>
      </rect>
@@ -80,7 +80,7 @@ color: rgb(255, 255, 255);</string>
     <property name="geometry">
      <rect>
       <x>570</x>
-      <y>230</y>
+      <y>340</y>
       <width>200</width>
       <height>50</height>
      </rect>
@@ -101,7 +101,7 @@ color: rgb(255, 255, 255);</string>
     <property name="geometry">
      <rect>
       <x>570</x>
-      <y>340</y>
+      <y>430</y>
       <width>200</width>
       <height>50</height>
      </rect>
@@ -131,7 +131,7 @@ color: rgb(255, 255, 255);</string>
      <string notr="true">background-color: rgb(95, 125, 164);</string>
     </property>
     <property name="text">
-     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:16pt;&quot;&gt;合格/不合格&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
     <property name="alignment">
      <set>Qt::AlignCenter</set>
@@ -141,7 +141,7 @@ color: rgb(255, 255, 255);</string>
     <property name="geometry">
      <rect>
       <x>570</x>
-      <y>450</y>
+      <y>520</y>
       <width>201</width>
       <height>51</height>
      </rect>
@@ -153,6 +153,58 @@ color: rgb(255, 255, 255);</string>
     </property>
     <property name="text">
      <string>返回</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_5">
+    <property name="geometry">
+     <rect>
+      <x>570</x>
+      <y>90</y>
+      <width>200</width>
+      <height>50</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Agency FB</family>
+      <pointsize>12</pointsize>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(95, 125, 164);
+color: rgb(255, 255, 255);</string>
+    </property>
+    <property name="text">
+     <string>打开/关闭相机</string>
+    </property>
+    <property name="flat">
+     <bool>false</bool>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_6">
+    <property name="geometry">
+     <rect>
+      <x>570</x>
+      <y>170</y>
+      <width>200</width>
+      <height>50</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Agency FB</family>
+      <pointsize>12</pointsize>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(95, 125, 164);
+color: rgb(255, 255, 255);</string>
+    </property>
+    <property name="text">
+     <string>相机拍照</string>
+    </property>
+    <property name="flat">
+     <bool>false</bool>
     </property>
    </widget>
   </widget>

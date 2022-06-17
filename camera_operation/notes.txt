@@ -1,0 +1,9 @@
+https://blog.51cto.com/u_15127533/3995741(Python实现调用摄像头并拍照发邮箱)
+
+2、ret,frame = cap.read()
+cap.read()按帧读取视频，ret,frame是获cap.read()方法的两个返回值。其中ret是布尔值，如果读取帧是正确的则返回True，
+如果文件读取到结尾，它的返回值就为False。frame就是每一帧的图像，是个三维矩阵。
+3、cv2.waitKey(1)，waitKey（）方法本身表示等待键盘输入，
+参数是1，表示延时1ms切换到下一帧图像，对于视频而言；
+参数为0，如cv2.waitKey(0)只显示当前帧图像，相当于视频暂停,；
+参数过大如cv2.waitKey(1000)，会因为延时过久而卡顿感觉到卡顿。

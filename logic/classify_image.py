@@ -6,7 +6,10 @@ import torch.nn as nn
 from PIL import Image
 import pickle
 import datetime
+import cv2
+import time
 from UI import classifier_window
+from camera_operation import camera_thread
 
 
 class Net(nn.Module):
@@ -78,7 +81,9 @@ class Net(nn.Module):
 
 
 class MainWindow(QtWidgets.QMainWindow, classifier_window.Ui_MainWindow):
-    RESULT_STATISTIC = {'合格' : 1, '不合格' : 1}
+    RESULT_STATISTIC = {'合格': 1, '不合格': 1}
+    LABEL_2_SIZE = [531, 431]
+
     def __init__(self, parent=None):
         super(MainWindow, self).__init__(parent)
         self.setupUi(self)
@@ -88,11 +93,17 @@ class MainWindow(QtWidgets.QMainWindow, classifier_window.Ui_MainWindow):
         self.model.load_state_dict(torch.load(self.modelPath, map_location=torch.device('cpu')))
         self.image_path = None
         self.result = None
+        # self.camera = cv2.VideoCapture(0)
+        self.camera_timer = QtCore.QTimer(self)
+        self.camera_timer.timeout.connect(self.camera_view)
+        # self.camera_thread = camera_thread.Camera_thread()
 
         self.pushButton.clicked.connect(self.open_image)
         self.pushButton_2.clicked.connect(self.classify_image)
         self.pushButton_3.clicked.connect(self.save_record)
         self.pushButton_4.clicked.connect(self.back)
+        self.pushButton_5.clicked.connect(self.open_camera)
+        self.pushButton_6.clicked.connect(self.take_picture)
 
     def setui(self, window):
         self.setupUi(window)
@@ -102,11 +113,13 @@ class MainWindow(QtWidgets.QMainWindow, classifier_window.Ui_MainWindow):
         self.model.load_state_dict(torch.load(self.modelPath, map_location=torch.device('cpu')))
         self.image_path = None
         self.result = None
+        self.camera_thread = camera_thread.Camera_thread()
         self.pushButton.clicked.connect(self.open_image)
         self.pushButton_2.clicked.connect(self.classify_image)
         self.pushButton_3.clicked.connect(self.save_record)
         self.pushButton_4.clicked.connect(self.back)
-        # pass
+        self.pushButton_5.clicked.connect(self.open_camera)
+        self.pushButton_6.clicked.connect(self.take_picture)
 
     def open_image(self):
         from PyQt5.QtWidgets import QFileDialog
@@ -137,11 +150,13 @@ class MainWindow(QtWidgets.QMainWindow, classifier_window.Ui_MainWindow):
             if result == 0:
                 self.result = "合格"
                 self.label_3.setText("合格")
-                self.label_3.setText("<html><head/><body><p><span style=\" font-size:16pt;\">合格</span></p></body></html>")
+                self.label_3.setText(
+                    "<html><head/><body><p><span style=\" font-size:16pt;\">合格</span></p></body></html>")
             else:
                 self.result = "不合格"
                 self.label_3.setText("不合格")
-                self.label_3.setText("<html><head/><body><p><span style=\" font-size:16pt;\">不合格</span></p></body></html>")
+                self.label_3.setText(
+                    "<html><head/><body><p><span style=\" font-size:16pt;\">不合格</span></p></body></html>")
 
     def save_record(self):
         if self.image_path != None and self.result != None:
@@ -151,13 +166,49 @@ class MainWindow(QtWidgets.QMainWindow, classifier_window.Ui_MainWindow):
                 MainWindow.RESULT_STATISTIC['不合格'] += 1
             path_list = self.image_path.split('/')
             image_name = path_list[-3] + '/' + path_list[-2] + '/' + path_list[-1]
-            one_img_info = [datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'), image_name, self.result]
+            one_img_info = [datetime.datetime.now().strftime('%Y-%m-%d% H:%M:%S'), image_name, self.result]
             with open('X:\金相研磨图像识别项目\pythonProject\\results_record\\results.pickle', 'ab') as file:
                 pickle.dump(one_img_info, file, 1)
         elif self.image_path != None and self.result == None:
             QtWidgets.QMessageBox.warning(None, '警告', '尚未对此图片进行识别', QtWidgets.QMessageBox.Ok)
         else:
             QtWidgets.QMessageBox.warning(None, '警告', '尚未上传图片', QtWidgets.QMessageBox.Ok)
+
+    def open_camera(self):
+        # self.camera_thread.changePixmap.connect(self.setCameraImage)
+        # self.camera_thread.start()
+        if not self.camera_timer.isActive(): # 如果相机关着，打开相机
+            self.cap = cv2.VideoCapture(0)
+            self.camera_timer.start(20)
+        else: # 如果相机开着，关闭相机
+            self.camera_timer.stop()
+            self.cap.release()
+
+    def camera_view(self):
+        ret, frame = self.cap.read()
+        rgbImage = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+        Qimage = QtGui.QImage(rgbImage[:], rgbImage.shape[1], rgbImage.shape[0], rgbImage.shape[1] * 3,
+                                 QtGui.QImage.Format_RGB888)  # pyqt5转换成自己能放的图片格式
+        resized_image = QtGui.QPixmap(Qimage.scaled(self.label_2.size().width(), self.label_2.size().height(), QtCore.Qt.KeepAspectRatio))
+        self.label_2.setPixmap(resized_image)
+        # self.cap.release()
+        # resized_image = QtGui.QPixmap(Qimage).scaled(self.label_2.geometry()[0],
+        #                                                 classify_image.MainWindow.LABEL_2_SIZE[1])  # 设置图片大小
+        #     # resized_image = QtGui.QPixmap(image).scaled(431, 331, QtCore.Qt.KeepAspectRatio)  # 设置图片大小
+        #     self.changePixmap.emit(resized_image)
+
+    def setCameraImage(self, pixImage):
+        self.label_2.setPixmap(pixImage)
+
+    def take_picture(self):
+        if self.camera_timer.isActive():
+            ret, frame = self.cap.read();
+            cv2.waitKey(0)
+            # image_name = QtCore.QDateTime().currentDateTime().toString(QtCore.Qt.DefaultLocaleLongDate)
+            image_name = time.time()
+            cv2.imwrite('../images/camera_takes/' + str(int(image_name)) + '.jpg', frame)
+        else:
+            QtWidgets.QMessageBox.warning(None, '警告', '相机已关闭', QtWidgets.QMessageBox.Ok)
 
     def back(self):
         pass

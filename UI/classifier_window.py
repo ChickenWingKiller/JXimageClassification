@@ -29,7 +29,7 @@ class Ui_MainWindow(object):
         self.label_2.setText("")
         self.label_2.setObjectName("label_2")
         self.pushButton = QtWidgets.QPushButton(self.centralwidget)
-        self.pushButton.setGeometry(QtCore.QRect(570, 120, 200, 50))
+        self.pushButton.setGeometry(QtCore.QRect(570, 250, 200, 50))
         font = QtGui.QFont()
         font.setFamily("Agency FB")
         font.setPointSize(12)
@@ -39,14 +39,14 @@ class Ui_MainWindow(object):
         self.pushButton.setFlat(False)
         self.pushButton.setObjectName("pushButton")
         self.pushButton_2 = QtWidgets.QPushButton(self.centralwidget)
-        self.pushButton_2.setGeometry(QtCore.QRect(570, 230, 200, 50))
+        self.pushButton_2.setGeometry(QtCore.QRect(570, 340, 200, 50))
         self.pushButton_2.setMouseTracking(True)
         self.pushButton_2.setStyleSheet("background-color: rgb(95, 125, 164);\n"
 "font: 12pt \"Agency FB\";\n"
 "color: rgb(255, 255, 255);")
         self.pushButton_2.setObjectName("pushButton_2")
         self.pushButton_3 = QtWidgets.QPushButton(self.centralwidget)
-        self.pushButton_3.setGeometry(QtCore.QRect(570, 340, 200, 50))
+        self.pushButton_3.setGeometry(QtCore.QRect(570, 430, 200, 50))
         self.pushButton_3.setMouseTracking(True)
         self.pushButton_3.setStyleSheet("background-color: rgb(95, 125, 164);\n"
 "font: 12pt \"Agency FB\";\n"
@@ -58,16 +58,36 @@ class Ui_MainWindow(object):
         self.label_3.setAlignment(QtCore.Qt.AlignCenter)
         self.label_3.setObjectName("label_3")
         self.pushButton_4 = QtWidgets.QPushButton(self.centralwidget)
-        self.pushButton_4.setGeometry(QtCore.QRect(570, 450, 201, 51))
+        self.pushButton_4.setGeometry(QtCore.QRect(570, 520, 201, 51))
         self.pushButton_4.setStyleSheet("background-color: rgb(95, 125, 164);\n"
 "font: 12pt \"Agency FB\";\n"
 "color: rgb(255, 255, 255);")
         self.pushButton_4.setObjectName("pushButton_4")
+        self.pushButton_5 = QtWidgets.QPushButton(self.centralwidget)
+        self.pushButton_5.setGeometry(QtCore.QRect(570, 90, 200, 50))
+        font = QtGui.QFont()
+        font.setFamily("Agency FB")
+        font.setPointSize(12)
+        self.pushButton_5.setFont(font)
+        self.pushButton_5.setStyleSheet("background-color: rgb(95, 125, 164);\n"
+"color: rgb(255, 255, 255);")
+        self.pushButton_5.setFlat(False)
+        self.pushButton_5.setObjectName("pushButton_5")
+        self.pushButton_6 = QtWidgets.QPushButton(self.centralwidget)
+        self.pushButton_6.setGeometry(QtCore.QRect(570, 170, 200, 50))
+        font = QtGui.QFont()
+        font.setFamily("Agency FB")
+        font.setPointSize(12)
+        self.pushButton_6.setFont(font)
+        self.pushButton_6.setStyleSheet("background-color: rgb(95, 125, 164);\n"
+"color: rgb(255, 255, 255);")
+        self.pushButton_6.setFlat(False)
+        self.pushButton_6.setObjectName("pushButton_6")
         MainWindow.setCentralWidget(self.centralwidget)
         self.statusbar = QtWidgets.QStatusBar(MainWindow)
         self.statusbar.setObjectName("statusbar")
         MainWindow.setStatusBar(self.statusbar)
-        # print(1)
+
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
@@ -78,5 +98,7 @@ class Ui_MainWindow(object):
         self.pushButton.setText(_translate("MainWindow", "上传图片"))
         self.pushButton_2.setText(_translate("MainWindow", "识别图片"))
         self.pushButton_3.setText(_translate("MainWindow", "保存此条记录"))
-        self.label_3.setText(_translate("MainWindow", "<html><head/><body><p><span style=\" font-size:16pt;\">合格/不合格</span></p></body></html>"))
+        self.label_3.setText(_translate("MainWindow", "<html><head/><body><p><br/></p></body></html>"))
         self.pushButton_4.setText(_translate("MainWindow", "返回"))
+        self.pushButton_5.setText(_translate("MainWindow", "打开/关闭相机"))
+        self.pushButton_6.setText(_translate("MainWindow", "相机拍照"))

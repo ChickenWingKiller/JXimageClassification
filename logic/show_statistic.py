@@ -6,13 +6,11 @@ class MainWindow(QtWidgets.QMainWindow, statistic_figure.Ui_MainWindow):
     def __init__(self, parent=None):
         super(MainWindow, self).__init__(parent)
         self.setupUi(self)
-        self.create_piechart(self)
-        self.pushButton_4 = QtWidgets.QPushButton(self.centralwidget)
-        # self.pushButton_4.setGeometry(QtCore.QRect(320, 520, 141, 41))
+        # self.create_piechart(self)
         self.pushButton_4.clicked.connect(self.back)
     def setui(self, window):
         self.setupUi(window)
-        self.create_piechart(window)
+        # self.create_piechart(window)
         self.pushButton_4.clicked.connect(self.back)
     def back(self):
         pass
