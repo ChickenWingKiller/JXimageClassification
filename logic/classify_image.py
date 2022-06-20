@@ -93,9 +93,11 @@ class MainWindow(QtWidgets.QMainWindow, classifier_window.Ui_MainWindow):
         self.model.load_state_dict(torch.load(self.modelPath, map_location=torch.device('cpu')))
         self.image_path = None
         self.result = None
-        # self.camera = cv2.VideoCapture(0)
+        self.camera = cv2.VideoCapture(0)
         self.camera_timer = QtCore.QTimer(self)
         self.camera_timer.timeout.connect(self.camera_view)
+        self.photo_camera_takes = None
+        self.camera_mode = False
         # self.camera_thread = camera_thread.Camera_thread()
 
         self.pushButton.clicked.connect(self.open_image)
@@ -122,23 +124,24 @@ class MainWindow(QtWidgets.QMainWindow, classifier_window.Ui_MainWindow):
         self.pushButton_6.clicked.connect(self.take_picture)
 
     def open_image(self):
-        from PyQt5.QtWidgets import QFileDialog
-        dir = QFileDialog()  # 创建文件对话框
-        dir.setFileMode(QFileDialog.ExistingFiles)  # 设置多选
-        dir.setDirectory('C:/Users/lyf19/Desktop/Temp/金相研磨图像识别项目/image/train/Pass')  # 设置初始路径为C盘
-        dir.setNameFilter('图片文件(*.jpg *.png *.bmp *.ico *.gif)')  # 设置只显示图片文件
-        if dir.exec_():  # 判断是否选择了文件
-            print(dir.selectedFiles())
-            self.image_path = dir.selectedFiles()[0]
-            image = QtGui.QPixmap(self.image_path)
-            self.label_2.setPixmap(image)
-            self.label_2.setScaledContents(True)  # 自适应图片大小
+        if self.camera_mode:
+            QtWidgets.QMessageBox.warning(None, '警告', '相机开启的状态下，无法上传本地图片', QtWidgets.QMessageBox.Ok)
+        else:
+            from PyQt5.QtWidgets import QFileDialog
+            dir = QFileDialog()  # 创建文件对话框
+            dir.setFileMode(QFileDialog.ExistingFiles)  # 设置多选
+            dir.setDirectory('C:/Users/lyf19/Desktop/Temp/金相研磨图像识别项目/image/train/Pass')  # 设置初始路径为C盘
+            dir.setNameFilter('图片文件(*.jpg *.png *.bmp *.ico *.gif)')  # 设置只显示图片文件
+            if dir.exec_():  # 判断是否选择了文件
+                print(dir.selectedFiles())
+                self.image_path = dir.selectedFiles()[0]
+                image = QtGui.QPixmap(self.image_path)
+                self.label_2.setPixmap(image)
+                self.label_2.setScaledContents(True)  # 自适应图片大小
 
     def classify_image(self):
-        if self.image_path == None:
-            QtWidgets.QMessageBox.warning(None, '警告', '尚未上传图片', QtWidgets.QMessageBox.Ok)
-        else:
-            image = Image.open(self.image_path)
+        if self.camera_mode:
+            image = Image.fromarray(self.photo_camera_takes)
             resized_image = image.resize((224, 224), Image.ANTIALIAS)
             image_numpy = np.array(resized_image)
             image_torch = torch.from_numpy(image_numpy)
@@ -157,6 +160,29 @@ class MainWindow(QtWidgets.QMainWindow, classifier_window.Ui_MainWindow):
                 self.label_3.setText("不合格")
                 self.label_3.setText(
                     "<html><head/><body><p><span style=\" font-size:16pt;\">不合格</span></p></body></html>")
+        else:
+            if self.image_path == None:
+                QtWidgets.QMessageBox.warning(None, '警告', '尚未上传图片', QtWidgets.QMessageBox.Ok)
+            else:
+                image = Image.open(self.image_path)
+                resized_image = image.resize((224, 224), Image.ANTIALIAS)
+                image_numpy = np.array(resized_image)
+                image_torch = torch.from_numpy(image_numpy)
+                image_torch = image_torch[None, :]
+                image_torch = image_torch.float()
+                image_torch = image_torch.permute(0, 3, 1, 2)
+                output = self.model(image_torch)
+                _, result = torch.max(output, 1)
+                if result == 0:
+                    self.result = "合格"
+                    self.label_3.setText("合格")
+                    self.label_3.setText(
+                        "<html><head/><body><p><span style=\" font-size:16pt;\">合格</span></p></body></html>")
+                else:
+                    self.result = "不合格"
+                    self.label_3.setText("不合格")
+                    self.label_3.setText(
+                        "<html><head/><body><p><span style=\" font-size:16pt;\">不合格</span></p></body></html>")
 
     def save_record(self):
         if self.image_path != None and self.result != None:
@@ -178,18 +204,25 @@ class MainWindow(QtWidgets.QMainWindow, classifier_window.Ui_MainWindow):
         # self.camera_thread.changePixmap.connect(self.setCameraImage)
         # self.camera_thread.start()
         if not self.camera_timer.isActive(): # 如果相机关着，打开相机
-            self.cap = cv2.VideoCapture(0)
+            # self.cap = cv2.VideoCapture(0)
+            self.camera_mode = True
             self.camera_timer.start(20)
+            self.label_4.setText("<html><head/><body><p><span style=\" font-size:10pt;\">相机状态:已开启</span></p></body></html>")
+            self.label_4.textFormat()
         else: # 如果相机开着，关闭相机
+            self.camera_mode = False
             self.camera_timer.stop()
-            self.cap.release()
+            self.label_4.setText("<html><head/><body><p><span style=\" font-size:10pt;\">相机状态:已关闭</span></p></body></html>")
+            # self.camera.release()
+            self.label_2.setPixmap(QtGui.QPixmap(""))
 
     def camera_view(self):
-        ret, frame = self.cap.read()
+        ret, frame = self.camera.read()
         rgbImage = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
         Qimage = QtGui.QImage(rgbImage[:], rgbImage.shape[1], rgbImage.shape[0], rgbImage.shape[1] * 3,
                                  QtGui.QImage.Format_RGB888)  # pyqt5转换成自己能放的图片格式
         resized_image = QtGui.QPixmap(Qimage.scaled(self.label_2.size().width(), self.label_2.size().height(), QtCore.Qt.KeepAspectRatio))
+        resized_image = QtGui.QPixmap(Qimage.scaled(self.label_2.size().width(), self.label_2.size().height()))
         self.label_2.setPixmap(resized_image)
         # self.cap.release()
         # resized_image = QtGui.QPixmap(Qimage).scaled(self.label_2.geometry()[0],
@@ -202,8 +235,12 @@ class MainWindow(QtWidgets.QMainWindow, classifier_window.Ui_MainWindow):
 
     def take_picture(self):
         if self.camera_timer.isActive():
-            ret, frame = self.cap.read();
-            cv2.waitKey(0)
+            ret, frame = self.camera.read()
+            # cv2.waitKey(0)
+            self.camera_timer.stop()
+            self.label_4.setText("<html><head/><body><p><span style=\" font-size:10pt;\">相机状态:已关闭</span></p></body></html>")
+            # self.camera_mode = False
+            self.photo_camera_takes = frame
             # image_name = QtCore.QDateTime().currentDateTime().toString(QtCore.Qt.DefaultLocaleLongDate)
             image_name = time.time()
             cv2.imwrite('../images/camera_takes/' + str(int(image_name)) + '.jpg', frame)

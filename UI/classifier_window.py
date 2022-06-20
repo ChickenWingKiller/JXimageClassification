@@ -53,8 +53,9 @@ class Ui_MainWindow(object):
 "color: rgb(255, 255, 255);")
         self.pushButton_3.setObjectName("pushButton_3")
         self.label_3 = QtWidgets.QLabel(self.centralwidget)
-        self.label_3.setGeometry(QtCore.QRect(90, 520, 321, 51))
-        self.label_3.setStyleSheet("background-color: rgb(95, 125, 164);")
+        self.label_3.setGeometry(QtCore.QRect(20, 520, 321, 51))
+        self.label_3.setStyleSheet("background-color: rgb(95, 125, 164);\n"
+"font: 16pt \"华文行楷\";")
         self.label_3.setAlignment(QtCore.Qt.AlignCenter)
         self.label_3.setObjectName("label_3")
         self.pushButton_4 = QtWidgets.QPushButton(self.centralwidget)
@@ -83,6 +84,12 @@ class Ui_MainWindow(object):
 "color: rgb(255, 255, 255);")
         self.pushButton_6.setFlat(False)
         self.pushButton_6.setObjectName("pushButton_6")
+        self.label_4 = QtWidgets.QLabel(self.centralwidget)
+        self.label_4.setGeometry(QtCore.QRect(380, 520, 151, 51))
+        self.label_4.setStyleSheet("background-color: rgb(95, 125, 164);\n"
+"color: rgb(255, 255, 255);\n"
+"font: 10pt \"Agency FB\";")
+        self.label_4.setObjectName("label_4")
         MainWindow.setCentralWidget(self.centralwidget)
         self.statusbar = QtWidgets.QStatusBar(MainWindow)
         self.statusbar.setObjectName("statusbar")
@@ -102,3 +109,4 @@ class Ui_MainWindow(object):
         self.pushButton_4.setText(_translate("MainWindow", "返回"))
         self.pushButton_5.setText(_translate("MainWindow", "打开/关闭相机"))
         self.pushButton_6.setText(_translate("MainWindow", "相机拍照"))
+        self.label_4.setText(_translate("MainWindow", "相机状态："))

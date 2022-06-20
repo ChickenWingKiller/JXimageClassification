@@ -121,14 +121,15 @@ color: rgb(255, 255, 255);</string>
    <widget class="QLabel" name="label_3">
     <property name="geometry">
      <rect>
-      <x>90</x>
+      <x>20</x>
       <y>520</y>
       <width>321</width>
       <height>51</height>
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">background-color: rgb(95, 125, 164);</string>
+     <string notr="true">background-color: rgb(95, 125, 164);
+font: 16pt &quot;华文行楷&quot;;</string>
     </property>
     <property name="text">
      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -205,6 +206,27 @@ color: rgb(255, 255, 255);</string>
     </property>
     <property name="flat">
      <bool>false</bool>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_4">
+    <property name="geometry">
+     <rect>
+      <x>380</x>
+      <y>520</y>
+      <width>151</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(95, 125, 164);
+color: rgb(255, 255, 255);
+font: 10pt &quot;Agency FB&quot;;</string>
+    </property>
+    <property name="text">
+     <string>相机状态：</string>
+    </property>
+    <property name="margin">
+     <number>9</number>
     </property>
    </widget>
   </widget>
