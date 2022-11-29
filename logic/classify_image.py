@@ -16,68 +16,103 @@ class Net(nn.Module):
     def __init__(self):
         super(Net, self).__init__()
         self.conv1 = nn.Sequential(
-            nn.Conv2d(in_channels=3, out_channels=64, kernel_size=3, stride=1, padding=1),
+            nn.Conv2d(in_channels=3, out_channels=6, kernel_size=3, stride=1, padding=1),
             nn.ReLU(),
-            nn.Conv2d(in_channels=64, out_channels=64, kernel_size=3, stride=1, padding=1),
-            nn.ReLU(),
-            nn.BatchNorm2d(num_features=64, eps=1e-05, momentum=0.1, affine=True),
-            nn.MaxPool2d(kernel_size=2, stride=2)
+            nn.BatchNorm2d(num_features=6, eps=1e-05, momentum=0.1, affine=True),
+            nn.MaxPool2d(kernel_size=5, stride=5)
         )
         self.conv2 = nn.Sequential(
-            nn.Conv2d(in_channels=64, out_channels=128, kernel_size=3, stride=1, padding=1),
+            nn.Conv2d(in_channels=6, out_channels=12, kernel_size=3, stride=1, padding=1),
             nn.ReLU(),
-            nn.Conv2d(in_channels=128, out_channels=128, kernel_size=3, stride=1, padding=1),
-            nn.ReLU(),
-            nn.BatchNorm2d(128, eps=1e-5, momentum=0.1, affine=True),
-            nn.MaxPool2d(kernel_size=2, stride=2)
+            nn.BatchNorm2d(12, eps=1e-5, momentum=0.1, affine=True),
+            nn.MaxPool2d(kernel_size=5, stride=5)
         )
         self.conv3 = nn.Sequential(
-            nn.Conv2d(in_channels=128, out_channels=256, kernel_size=3, stride=1, padding=1),
+            nn.Conv2d(in_channels=12, out_channels=24, kernel_size=3, stride=1, padding=1),
             nn.ReLU(),
-            nn.Conv2d(in_channels=256, out_channels=256, kernel_size=3, stride=1, padding=1),
-            nn.ReLU(),
-            nn.Conv2d(in_channels=256, out_channels=256, kernel_size=3, stride=1, padding=1),
-            nn.ReLU(),
-            nn.BatchNorm2d(256, eps=1e-5, momentum=0.1, affine=True),
-            nn.MaxPool2d(kernel_size=2, stride=2)
-        )
-        self.conv4 = nn.Sequential(
-            nn.Conv2d(in_channels=256, out_channels=512, kernel_size=3, stride=1, padding=1),
-            nn.ReLU(),
-            nn.Conv2d(in_channels=512, out_channels=512, kernel_size=3, stride=1, padding=1),
-            nn.ReLU(),
-            nn.Conv2d(in_channels=512, out_channels=512, kernel_size=3, stride=1, padding=1),
-            nn.ReLU(),
-            nn.BatchNorm2d(512, eps=1e-5, momentum=0.1, affine=True),
-            nn.MaxPool2d(kernel_size=2, stride=2)
-        )
-        self.conv5 = nn.Sequential(
-            nn.Conv2d(in_channels=512, out_channels=512, kernel_size=3, stride=1, padding=1),
-            nn.ReLU(),
-            nn.Conv2d(in_channels=512, out_channels=512, kernel_size=3, stride=1, padding=1),
-            nn.ReLU(),
-            nn.Conv2d(in_channels=512, out_channels=512, kernel_size=3, stride=1, padding=1),
-            nn.ReLU(),
-            nn.BatchNorm2d(512, eps=1e-5, momentum=0.1, affine=True),
+            nn.BatchNorm2d(24, eps=1e-5, momentum=0.1, affine=True),
             nn.MaxPool2d(kernel_size=2, stride=2)
         )
         self.dense1 = nn.Sequential(
-            nn.Linear(7 * 7 * 512, 4096),
+            nn.Linear(24 * 12 * 12, 2048),
             nn.ReLU(),
-            nn.Linear(4096, 4096),
+            nn.Linear(2048, 1024),
             nn.ReLU(),
-            nn.Linear(4096, 2)
+            nn.Linear(1024, 2),
         )
 
     def forward(self, x):
         x = self.conv1(x)
         x = self.conv2(x)
         x = self.conv3(x)
-        x = self.conv4(x)
-        x = self.conv5(x)
-        x = x.reshape(-1, 7 * 7 * 512)
+        x = x.reshape(-1, 24 * 12 * 12)
         x = self.dense1(x)
         return x
+    # def __init__(self):
+    #     super(Net, self).__init__()
+    #     self.conv1 = nn.Sequential(
+    #         nn.Conv2d(in_channels=3, out_channels=64, kernel_size=3, stride=1, padding=1),
+    #         nn.ReLU(),
+    #         nn.Conv2d(in_channels=64, out_channels=64, kernel_size=3, stride=1, padding=1),
+    #         nn.ReLU(),
+    #         nn.BatchNorm2d(num_features=64, eps=1e-05, momentum=0.1, affine=True),
+    #         nn.MaxPool2d(kernel_size=2, stride=2)
+    #     )
+    #     self.conv2 = nn.Sequential(
+    #         nn.Conv2d(in_channels=64, out_channels=128, kernel_size=3, stride=1, padding=1),
+    #         nn.ReLU(),
+    #         nn.Conv2d(in_channels=128, out_channels=128, kernel_size=3, stride=1, padding=1),
+    #         nn.ReLU(),
+    #         nn.BatchNorm2d(128, eps=1e-5, momentum=0.1, affine=True),
+    #         nn.MaxPool2d(kernel_size=2, stride=2)
+    #     )
+    #     self.conv3 = nn.Sequential(
+    #         nn.Conv2d(in_channels=128, out_channels=256, kernel_size=3, stride=1, padding=1),
+    #         nn.ReLU(),
+    #         nn.Conv2d(in_channels=256, out_channels=256, kernel_size=3, stride=1, padding=1),
+    #         nn.ReLU(),
+    #         nn.Conv2d(in_channels=256, out_channels=256, kernel_size=3, stride=1, padding=1),
+    #         nn.ReLU(),
+    #         nn.BatchNorm2d(256, eps=1e-5, momentum=0.1, affine=True),
+    #         nn.MaxPool2d(kernel_size=2, stride=2)
+    #     )
+    #     self.conv4 = nn.Sequential(
+    #         nn.Conv2d(in_channels=256, out_channels=512, kernel_size=3, stride=1, padding=1),
+    #         nn.ReLU(),
+    #         nn.Conv2d(in_channels=512, out_channels=512, kernel_size=3, stride=1, padding=1),
+    #         nn.ReLU(),
+    #         nn.Conv2d(in_channels=512, out_channels=512, kernel_size=3, stride=1, padding=1),
+    #         nn.ReLU(),
+    #         nn.BatchNorm2d(512, eps=1e-5, momentum=0.1, affine=True),
+    #         nn.MaxPool2d(kernel_size=2, stride=2)
+    #     )
+    #     self.conv5 = nn.Sequential(
+    #         nn.Conv2d(in_channels=512, out_channels=512, kernel_size=3, stride=1, padding=1),
+    #         nn.ReLU(),
+    #         nn.Conv2d(in_channels=512, out_channels=512, kernel_size=3, stride=1, padding=1),
+    #         nn.ReLU(),
+    #         nn.Conv2d(in_channels=512, out_channels=512, kernel_size=3, stride=1, padding=1),
+    #         nn.ReLU(),
+    #         nn.BatchNorm2d(512, eps=1e-5, momentum=0.1, affine=True),
+    #         nn.MaxPool2d(kernel_size=2, stride=2)
+    #     )
+    #     self.dense1 = nn.Sequential(
+    #         nn.Linear(7 * 7 * 512, 4096),
+    #         nn.ReLU(),
+    #         nn.Linear(4096, 4096),
+    #         nn.ReLU(),
+    #         nn.Linear(4096, 2)
+    #     )
+    #
+    # def forward(self, x):
+    #     x = self.conv1(x)
+    #     x = self.conv2(x)
+    #     x = self.conv3(x)
+    #     x = self.conv4(x)
+    #     x = self.conv5(x)
+    #     x = x.reshape(-1, 7 * 7 * 512)
+    #     x = self.dense1(x)
+    #     return x
 
 
 class MainWindow(QtWidgets.QMainWindow, classifier_window.Ui_MainWindow):
@@ -88,8 +123,8 @@ class MainWindow(QtWidgets.QMainWindow, classifier_window.Ui_MainWindow):
         super(MainWindow, self).__init__(parent)
         self.setupUi(self)
         self.model = Net()
-        self.modelPath = "../Trained Model/net89.pth"
-        self.modelPath = "X:\金相研磨图像识别项目\\pythonProject\\Trained Model\\net89.pth"
+        self.modelPath = "../Trained Model/net_twoclass28.pth"
+        self.modelPath = "X:\金相研磨图像识别项目\\pythonProject\\Trained Model\\net_twoclass28.pth"
         self.model.load_state_dict(torch.load(self.modelPath, map_location=torch.device('cpu')))
         self.image_path = None
         self.result = None
@@ -110,8 +145,8 @@ class MainWindow(QtWidgets.QMainWindow, classifier_window.Ui_MainWindow):
     def setui(self, window):
         self.setupUi(window)
         self.model = Net()
-        self.modelPath = "../Trained Model/net89.pth"
-        self.modelPath = "X:\金相研磨图像识别项目\\pythonProject\\Trained Model\\net89.pth"
+        self.modelPath = "../Trained Model/net_twoclass28.pth"
+        self.modelPath = "X:\金相研磨图像识别项目\\pythonProject\\Trained Model\\net_twoclass28.pth"
         self.model.load_state_dict(torch.load(self.modelPath, map_location=torch.device('cpu')))
         self.image_path = None
         self.result = None
@@ -133,7 +168,7 @@ class MainWindow(QtWidgets.QMainWindow, classifier_window.Ui_MainWindow):
             dir.setDirectory('C:/Users/lyf19/Desktop/Temp/金相研磨图像识别项目/image/train/Pass')  # 设置初始路径为C盘
             dir.setNameFilter('图片文件(*.jpg *.png *.bmp *.ico *.gif)')  # 设置只显示图片文件
             if dir.exec_():  # 判断是否选择了文件
-                print(dir.selectedFiles())
+                # print(dir.selectedFiles())
                 self.image_path = dir.selectedFiles()[0]
                 image = QtGui.QPixmap(self.image_path)
                 self.label_2.setPixmap(image)
@@ -141,14 +176,29 @@ class MainWindow(QtWidgets.QMainWindow, classifier_window.Ui_MainWindow):
 
     def classify_image(self):
         if self.camera_mode:
-            image = Image.fromarray(self.photo_camera_takes)
-            resized_image = image.resize((224, 224), Image.ANTIALIAS)
-            image_numpy = np.array(resized_image)
-            image_torch = torch.from_numpy(image_numpy)
-            image_torch = image_torch[None, :]
-            image_torch = image_torch.float()
-            image_torch = image_torch.permute(0, 3, 1, 2)
-            output = self.model(image_torch)
+            # image = Image.fromarray(self.photo_camera_takes)
+            # print(type(self.photo_camera_takes)) # np.array
+            # resized_image = image.resize((224, 224), Image.ANTIALIAS)
+            # image_numpy = np.array(resized_image)
+            # image_torch = torch.from_numpy(image_numpy)
+            # image_torch = image_torch[None, :]
+            # image_torch = image_torch.float()
+            # image_torch = image_torch.permute(0, 3, 1, 2)
+            # output = self.model(image_torch)
+            # _, result = torch.max(output, 1)
+            image_gray = cv2.cvtColor(self.photo_camera_takes, cv2.COLOR_BGR2GRAY)
+            image_gray_canny = cv2.Canny(image_gray, 150, 250)
+            row_min = np.min(np.nonzero(image_gray_canny)[0])
+            row_max = np.max(np.nonzero(image_gray_canny)[0])
+            col_min = np.min(np.nonzero(image_gray_canny)[1])
+            col_max = np.max(np.nonzero(image_gray_canny)[1])
+            cropped_image = self.photo_camera_takes[row_min:row_max, col_min:col_max]
+            cropped_image = cv2.resize(cropped_image, (600, 600))
+            cropped_image = torch.from_numpy(cropped_image)
+            cropped_image = cropped_image[None, :]
+            cropped_image = cropped_image.float()
+            cropped_image = cropped_image.permute(0, 3, 1, 2)
+            output = self.model(cropped_image)
             _, result = torch.max(output, 1)
             if result == 0:
                 self.result = "合格"
@@ -164,14 +214,28 @@ class MainWindow(QtWidgets.QMainWindow, classifier_window.Ui_MainWindow):
             if self.image_path == None:
                 QtWidgets.QMessageBox.warning(None, '警告', '尚未上传图片', QtWidgets.QMessageBox.Ok)
             else:
-                image = Image.open(self.image_path)
-                resized_image = image.resize((224, 224), Image.ANTIALIAS)
-                image_numpy = np.array(resized_image)
-                image_torch = torch.from_numpy(image_numpy)
-                image_torch = image_torch[None, :]
-                image_torch = image_torch.float()
-                image_torch = image_torch.permute(0, 3, 1, 2)
-                output = self.model(image_torch)
+                # image = Image.open(self.image_path)
+                # resized_image = image.resize((224, 224), Image.ANTIALIAS)
+                # image_numpy = np.array(resized_image)
+                # image_torch = torch.from_numpy(image_numpy)
+                # image_torch = image_torch[None, :]
+                # image_torch = image_torch.float()
+                # image_torch = image_torch.permute(0, 3, 1, 2)
+                # output = self.model(image_torch)
+                image = cv2.imread(self.image_path)
+                image_gray = cv2.imread(self.image_path, cv2.IMREAD_GRAYSCALE)
+                image_gray_canny = cv2.Canny(image_gray, 150, 250)
+                row_min = np.min(np.nonzero(image_gray_canny)[0])
+                row_max = np.max(np.nonzero(image_gray_canny)[0])
+                col_min = np.min(np.nonzero(image_gray_canny)[1])
+                col_max = np.max(np.nonzero(image_gray_canny)[1])
+                cropped_image = image[row_min:row_max, col_min:col_max]
+                cropped_image = cv2.resize(cropped_image, (600, 600))
+                cropped_image = torch.from_numpy(cropped_image)
+                cropped_image = cropped_image[None, :]
+                cropped_image = cropped_image.float()
+                cropped_image = cropped_image.permute(0, 3, 1, 2)
+                output = self.model(cropped_image)
                 _, result = torch.max(output, 1)
                 if result == 0:
                     self.result = "合格"
