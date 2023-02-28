@@ -12,20 +12,18 @@ from PyQt5 import QtCore, QtGui, QtWidgets, QtChart
 
 
 class Ui_MainWindow(object):
-    def setupUi(self, MainWindow):
+    def setupUi(self, MainWindow, num_tuple):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(800, 600)
         MainWindow.setStyleSheet("background-color: rgb(252, 223, 86);")
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
 
-        # pass_num = classify_image.MainWindow.RESULT_STATISTIC['合格']
-        # notpass_num = classify_image.MainWindow.RESULT_STATISTIC['不合格']
-        pass_num = 100
-        notpass_num = 20
+        pass_num = num_tuple[0]
+        notpass_num = num_tuple[1]
         series = QtChart.QPieSeries()
-        series.append('合格:100', pass_num)
-        series.append('不合格:20', notpass_num)
+        series.append('合格:'+str(pass_num), pass_num)
+        series.append('不合格:'+str(notpass_num), notpass_num)
 
         slice_pass = series.slices()[0]
         # slice_pass.setExploded(True)

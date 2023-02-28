@@ -49,6 +49,7 @@ class Net(nn.Module):
         x = self.dense1(x)
         return x
 
+
 class MainWindow(QtWidgets.QMainWindow, classifier_window.Ui_MainWindow):
     RESULT_STATISTIC = {'合格': 1, '不合格': 1}
     LABEL_2_SIZE = [531, 431]
@@ -167,13 +168,14 @@ class MainWindow(QtWidgets.QMainWindow, classifier_window.Ui_MainWindow):
 
     def save_record(self):
         if self.image_path != None and self.result != None:
-            if self.result == '合格':
-                MainWindow.RESULT_STATISTIC['合格'] += 1
-            else:
-                MainWindow.RESULT_STATISTIC['不合格'] += 1
+            # if self.result == '合格':
+            #     MainWindow.RESULT_STATISTIC['合格'] += 1
+            # else:
+            #     MainWindow.RESULT_STATISTIC['不合格'] += 1
             path_list = self.image_path.split('/')
-            image_name = path_list[-3] + '/' + path_list[-2] + '/' + path_list[-1]
-            one_img_info = [datetime.datetime.now().strftime('%Y-%m-%d% H:%M:%S'), image_name, self.result]
+            # image_name = path_list[-3] + '/' + path_list[-2] + '/' + path_list[-1]
+            image_name = path_list[-1]
+            one_img_info = [datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'), image_name, self.result]
             with open('X:\金相研磨图像识别项目\pythonProject\\results_record\\results.pickle', 'ab') as file:
                 pickle.dump(one_img_info, file, 1)
         elif self.image_path != None and self.result == None:
@@ -182,26 +184,28 @@ class MainWindow(QtWidgets.QMainWindow, classifier_window.Ui_MainWindow):
             QtWidgets.QMessageBox.warning(None, '警告', '尚未上传图片', QtWidgets.QMessageBox.Ok)
 
     def open_camera(self):
-        if not self.camera_timer.isActive(): # 如果相机关着，打开相机
+        if not self.camera_timer.isActive():  # 如果相机关着，打开相机
             self.camera_mode = True
             self.camera_timer.start(20)
-            self.label_4.setText("<html><head/><body><p><span style=\" font-size:10pt;\">相机状态:已开启</span></p></body></html>")
+            self.label_4.setText(
+                "<html><head/><body><p><span style=\" font-size:10pt;\">相机状态:已开启</span></p></body></html>")
             self.label_4.textFormat()
-        else: # 如果相机开着，关闭相机
+        else:  # 如果相机开着，关闭相机
             self.camera_mode = False
             self.camera_timer.stop()
-            self.label_4.setText("<html><head/><body><p><span style=\" font-size:10pt;\">相机状态:已关闭</span></p></body></html>")
+            self.label_4.setText(
+                "<html><head/><body><p><span style=\" font-size:10pt;\">相机状态:已关闭</span></p></body></html>")
             self.label_2.setPixmap(QtGui.QPixmap(""))
 
     def camera_view(self):
         ret, frame = self.camera.read()
         rgbImage = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
         Qimage = QtGui.QImage(rgbImage[:], rgbImage.shape[1], rgbImage.shape[0], rgbImage.shape[1] * 3,
-                                 QtGui.QImage.Format_RGB888)  # pyqt5转换成自己能放的图片格式
-        resized_image = QtGui.QPixmap(Qimage.scaled(self.label_2.size().width(), self.label_2.size().height(), QtCore.Qt.KeepAspectRatio))
+                              QtGui.QImage.Format_RGB888)  # pyqt5转换成自己能放的图片格式
+        resized_image = QtGui.QPixmap(
+            Qimage.scaled(self.label_2.size().width(), self.label_2.size().height(), QtCore.Qt.KeepAspectRatio))
         resized_image = QtGui.QPixmap(Qimage.scaled(self.label_2.size().width(), self.label_2.size().height()))
         self.label_2.setPixmap(resized_image)
-
 
     def setCameraImage(self, pixImage):
         self.label_2.setPixmap(pixImage)
@@ -210,7 +214,8 @@ class MainWindow(QtWidgets.QMainWindow, classifier_window.Ui_MainWindow):
         if self.camera_timer.isActive():
             ret, frame = self.camera.read()
             self.camera_timer.stop()
-            self.label_4.setText("<html><head/><body><p><span style=\" font-size:10pt;\">相机状态:已关闭</span></p></body></html>")
+            self.label_4.setText(
+                "<html><head/><body><p><span style=\" font-size:10pt;\">相机状态:已关闭</span></p></body></html>")
             self.photo_camera_takes = frame
             image_name = time.time()
             cv2.imwrite('../images/camera_takes/' + str(int(image_name)) + '.jpg', frame)
