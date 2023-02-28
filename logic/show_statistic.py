@@ -22,12 +22,14 @@ class MainWindow(QtWidgets.QMainWindow, statistic_figure.Ui_MainWindow):
         series.append('不合格', notpass_num)
 
         slice_pass = series.slices()[0]
+        print(slice_pass)
         # slice_pass.setExploded(True)
         slice_pass.setLabelVisible(True)
         slice_pass.setPen(QtGui.QPen(QtCore.Qt.blue, 2))
         slice_pass.setBrush(QtCore.Qt.blue)
 
         slice_notpass = series.slices()[1]
+        print(slice_notpass)
         slice_notpass.setLabelVisible(True)
         slice_notpass.setPen(QtGui.QPen(QtCore.Qt.red, 2))
         slice_notpass.setBrush(QtCore.Qt.red)

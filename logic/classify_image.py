@@ -123,8 +123,9 @@ class MainWindow(QtWidgets.QMainWindow, classifier_window.Ui_MainWindow):
         super(MainWindow, self).__init__(parent)
         self.setupUi(self)
         self.model = Net()
-        self.modelPath = "../Trained Model/net_twoclass28.pth"
-        self.modelPath = "X:\金相研磨图像识别项目\\pythonProject\\Trained Model\\net_twoclass28.pth"
+        # self.modelPath = "./Trained Model/net_twoclass28.pth"
+        # self.modelPath = "X:\金相研磨图像识别项目\\pythonProject\\Trained Model\\net_twoclass28_test.pth"
+        self.modelPath = "X:\金相研磨图像识别项目\\pythonProject\\Trained Model\\V1.0 model.pth"
         self.model.load_state_dict(torch.load(self.modelPath, map_location=torch.device('cpu')))
         self.image_path = None
         self.result = None
@@ -145,8 +146,9 @@ class MainWindow(QtWidgets.QMainWindow, classifier_window.Ui_MainWindow):
     def setui(self, window):
         self.setupUi(window)
         self.model = Net()
-        self.modelPath = "../Trained Model/net_twoclass28.pth"
-        self.modelPath = "X:\金相研磨图像识别项目\\pythonProject\\Trained Model\\net_twoclass28.pth"
+        # self.modelPath = "./Trained Model/net_twoclass28_test.pth"
+        # self.modelPath = "X:\金相研磨图像识别项目\\pythonProject\\Trained Model\\net_twoclass28.pth"
+        self.modelPath = "X:\金相研磨图像识别项目\\pythonProject\\Trained Model\\V1.0 model.pth"
         self.model.load_state_dict(torch.load(self.modelPath, map_location=torch.device('cpu')))
         self.image_path = None
         self.result = None
