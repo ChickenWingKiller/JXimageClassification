@@ -1,3 +1,4 @@
 *.pickle
 *.pth
 *.BMP
+myvenv

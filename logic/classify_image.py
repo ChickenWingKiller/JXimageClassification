@@ -48,72 +48,6 @@ class Net(nn.Module):
         x = x.reshape(-1, 24 * 12 * 12)
         x = self.dense1(x)
         return x
-    # def __init__(self):
-    #     super(Net, self).__init__()
-    #     self.conv1 = nn.Sequential(
-    #         nn.Conv2d(in_channels=3, out_channels=64, kernel_size=3, stride=1, padding=1),
-    #         nn.ReLU(),
-    #         nn.Conv2d(in_channels=64, out_channels=64, kernel_size=3, stride=1, padding=1),
-    #         nn.ReLU(),
-    #         nn.BatchNorm2d(num_features=64, eps=1e-05, momentum=0.1, affine=True),
-    #         nn.MaxPool2d(kernel_size=2, stride=2)
-    #     )
-    #     self.conv2 = nn.Sequential(
-    #         nn.Conv2d(in_channels=64, out_channels=128, kernel_size=3, stride=1, padding=1),
-    #         nn.ReLU(),
-    #         nn.Conv2d(in_channels=128, out_channels=128, kernel_size=3, stride=1, padding=1),
-    #         nn.ReLU(),
-    #         nn.BatchNorm2d(128, eps=1e-5, momentum=0.1, affine=True),
-    #         nn.MaxPool2d(kernel_size=2, stride=2)
-    #     )
-    #     self.conv3 = nn.Sequential(
-    #         nn.Conv2d(in_channels=128, out_channels=256, kernel_size=3, stride=1, padding=1),
-    #         nn.ReLU(),
-    #         nn.Conv2d(in_channels=256, out_channels=256, kernel_size=3, stride=1, padding=1),
-    #         nn.ReLU(),
-    #         nn.Conv2d(in_channels=256, out_channels=256, kernel_size=3, stride=1, padding=1),
-    #         nn.ReLU(),
-    #         nn.BatchNorm2d(256, eps=1e-5, momentum=0.1, affine=True),
-    #         nn.MaxPool2d(kernel_size=2, stride=2)
-    #     )
-    #     self.conv4 = nn.Sequential(
-    #         nn.Conv2d(in_channels=256, out_channels=512, kernel_size=3, stride=1, padding=1),
-    #         nn.ReLU(),
-    #         nn.Conv2d(in_channels=512, out_channels=512, kernel_size=3, stride=1, padding=1),
-    #         nn.ReLU(),
-    #         nn.Conv2d(in_channels=512, out_channels=512, kernel_size=3, stride=1, padding=1),
-    #         nn.ReLU(),
-    #         nn.BatchNorm2d(512, eps=1e-5, momentum=0.1, affine=True),
-    #         nn.MaxPool2d(kernel_size=2, stride=2)
-    #     )
-    #     self.conv5 = nn.Sequential(
-    #         nn.Conv2d(in_channels=512, out_channels=512, kernel_size=3, stride=1, padding=1),
-    #         nn.ReLU(),
-    #         nn.Conv2d(in_channels=512, out_channels=512, kernel_size=3, stride=1, padding=1),
-    #         nn.ReLU(),
-    #         nn.Conv2d(in_channels=512, out_channels=512, kernel_size=3, stride=1, padding=1),
-    #         nn.ReLU(),
-    #         nn.BatchNorm2d(512, eps=1e-5, momentum=0.1, affine=True),
-    #         nn.MaxPool2d(kernel_size=2, stride=2)
-    #     )
-    #     self.dense1 = nn.Sequential(
-    #         nn.Linear(7 * 7 * 512, 4096),
-    #         nn.ReLU(),
-    #         nn.Linear(4096, 4096),
-    #         nn.ReLU(),
-    #         nn.Linear(4096, 2)
-    #     )
-    #
-    # def forward(self, x):
-    #     x = self.conv1(x)
-    #     x = self.conv2(x)
-    #     x = self.conv3(x)
-    #     x = self.conv4(x)
-    #     x = self.conv5(x)
-    #     x = x.reshape(-1, 7 * 7 * 512)
-    #     x = self.dense1(x)
-    #     return x
-
 
 class MainWindow(QtWidgets.QMainWindow, classifier_window.Ui_MainWindow):
     RESULT_STATISTIC = {'合格': 1, '不合格': 1}
@@ -134,7 +68,6 @@ class MainWindow(QtWidgets.QMainWindow, classifier_window.Ui_MainWindow):
         self.camera_timer.timeout.connect(self.camera_view)
         self.photo_camera_takes = None
         self.camera_mode = False
-        # self.camera_thread = camera_thread.Camera_thread()
 
         self.pushButton.clicked.connect(self.open_image)
         self.pushButton_2.clicked.connect(self.classify_image)
@@ -178,16 +111,6 @@ class MainWindow(QtWidgets.QMainWindow, classifier_window.Ui_MainWindow):
 
     def classify_image(self):
         if self.camera_mode:
-            # image = Image.fromarray(self.photo_camera_takes)
-            # print(type(self.photo_camera_takes)) # np.array
-            # resized_image = image.resize((224, 224), Image.ANTIALIAS)
-            # image_numpy = np.array(resized_image)
-            # image_torch = torch.from_numpy(image_numpy)
-            # image_torch = image_torch[None, :]
-            # image_torch = image_torch.float()
-            # image_torch = image_torch.permute(0, 3, 1, 2)
-            # output = self.model(image_torch)
-            # _, result = torch.max(output, 1)
             image_gray = cv2.cvtColor(self.photo_camera_takes, cv2.COLOR_BGR2GRAY)
             image_gray_canny = cv2.Canny(image_gray, 150, 250)
             row_min = np.min(np.nonzero(image_gray_canny)[0])
@@ -216,14 +139,6 @@ class MainWindow(QtWidgets.QMainWindow, classifier_window.Ui_MainWindow):
             if self.image_path == None:
                 QtWidgets.QMessageBox.warning(None, '警告', '尚未上传图片', QtWidgets.QMessageBox.Ok)
             else:
-                # image = Image.open(self.image_path)
-                # resized_image = image.resize((224, 224), Image.ANTIALIAS)
-                # image_numpy = np.array(resized_image)
-                # image_torch = torch.from_numpy(image_numpy)
-                # image_torch = image_torch[None, :]
-                # image_torch = image_torch.float()
-                # image_torch = image_torch.permute(0, 3, 1, 2)
-                # output = self.model(image_torch)
                 image = cv2.imread(self.image_path)
                 image_gray = cv2.imread(self.image_path, cv2.IMREAD_GRAYSCALE)
                 image_gray_canny = cv2.Canny(image_gray, 150, 250)
@@ -267,10 +182,7 @@ class MainWindow(QtWidgets.QMainWindow, classifier_window.Ui_MainWindow):
             QtWidgets.QMessageBox.warning(None, '警告', '尚未上传图片', QtWidgets.QMessageBox.Ok)
 
     def open_camera(self):
-        # self.camera_thread.changePixmap.connect(self.setCameraImage)
-        # self.camera_thread.start()
         if not self.camera_timer.isActive(): # 如果相机关着，打开相机
-            # self.cap = cv2.VideoCapture(0)
             self.camera_mode = True
             self.camera_timer.start(20)
             self.label_4.setText("<html><head/><body><p><span style=\" font-size:10pt;\">相机状态:已开启</span></p></body></html>")
@@ -279,7 +191,6 @@ class MainWindow(QtWidgets.QMainWindow, classifier_window.Ui_MainWindow):
             self.camera_mode = False
             self.camera_timer.stop()
             self.label_4.setText("<html><head/><body><p><span style=\" font-size:10pt;\">相机状态:已关闭</span></p></body></html>")
-            # self.camera.release()
             self.label_2.setPixmap(QtGui.QPixmap(""))
 
     def camera_view(self):
@@ -290,11 +201,7 @@ class MainWindow(QtWidgets.QMainWindow, classifier_window.Ui_MainWindow):
         resized_image = QtGui.QPixmap(Qimage.scaled(self.label_2.size().width(), self.label_2.size().height(), QtCore.Qt.KeepAspectRatio))
         resized_image = QtGui.QPixmap(Qimage.scaled(self.label_2.size().width(), self.label_2.size().height()))
         self.label_2.setPixmap(resized_image)
-        # self.cap.release()
-        # resized_image = QtGui.QPixmap(Qimage).scaled(self.label_2.geometry()[0],
-        #                                                 classify_image.MainWindow.LABEL_2_SIZE[1])  # 设置图片大小
-        #     # resized_image = QtGui.QPixmap(image).scaled(431, 331, QtCore.Qt.KeepAspectRatio)  # 设置图片大小
-        #     self.changePixmap.emit(resized_image)
+
 
     def setCameraImage(self, pixImage):
         self.label_2.setPixmap(pixImage)
@@ -302,12 +209,9 @@ class MainWindow(QtWidgets.QMainWindow, classifier_window.Ui_MainWindow):
     def take_picture(self):
         if self.camera_timer.isActive():
             ret, frame = self.camera.read()
-            # cv2.waitKey(0)
             self.camera_timer.stop()
             self.label_4.setText("<html><head/><body><p><span style=\" font-size:10pt;\">相机状态:已关闭</span></p></body></html>")
-            # self.camera_mode = False
             self.photo_camera_takes = frame
-            # image_name = QtCore.QDateTime().currentDateTime().toString(QtCore.Qt.DefaultLocaleLongDate)
             image_name = time.time()
             cv2.imwrite('../images/camera_takes/' + str(int(image_name)) + '.jpg', frame)
         else:

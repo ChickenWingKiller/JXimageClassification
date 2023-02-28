@@ -50,10 +50,3 @@ class MainWindow(QtWidgets.QMainWindow, statistic_figure.Ui_MainWindow):
         chartview.setRenderHint(QtGui.QPainter.Antialiasing)
 
         window.setCentralWidget(chartview)
-
-if __name__ == "__main__":
-    import sys
-    app = QtWidgets.QApplication(sys.argv)
-    window = MainWindow()
-    window.show()
-    sys.exit(app.exec_())
