@@ -26,7 +26,6 @@ class Ui_MainWindow(object):
         series.append('不合格:'+str(notpass_num), notpass_num)
 
         slice_pass = series.slices()[0]
-        # slice_pass.setExploded(True)
         slice_pass.setLabelVisible(True)
         slice_pass.setPen(QtGui.QPen(QtCore.Qt.blue, 2))
         slice_pass.setBrush(QtCore.Qt.blue)
@@ -42,8 +41,6 @@ class Ui_MainWindow(object):
         chart.createDefaultAxes()
 
         chart.setAnimationOptions(QtChart.QChart.SeriesAnimations)
-
-        # chart.setTitle("饼图")
 
         chart.legend().setVisible(True)
         chart.legend().setAlignment(QtCore.Qt.AlignBottom)
@@ -62,9 +59,6 @@ class Ui_MainWindow(object):
         self.verticalLayout = QtWidgets.QVBoxLayout(self.verticalLayoutWidget)
         self.verticalLayout.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout.setObjectName("verticalLayout")
-        # self.label_2 = QtWidgets.QLabel(self.verticalLayoutWidget)
-        # self.label_2.setObjectName("label_2")
-        # self.verticalLayout.addWidget(self.label_2)
         self.verticalLayout.addWidget(chartview)
         self.pushButton_4 = QtWidgets.QPushButton(self.verticalLayoutWidget)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
@@ -96,5 +90,4 @@ class Ui_MainWindow(object):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
         self.label.setText(_translate("MainWindow", "<html><head/><body><p align=\"center\"><span style=\" font-size:22pt;\">欢迎来到金相研磨图像识别系统</span></p></body></html>"))
-        # self.label_2.setText(_translate("MainWindow", "TextLabel"))
         self.pushButton_4.setText(_translate("MainWindow", "返 回"))

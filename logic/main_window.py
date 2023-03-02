@@ -1,5 +1,4 @@
-from PyQt5 import QtCore, QtGui, QtWidgets
-import sys
+from PyQt5 import QtWidgets
 from UI import main_window
 
 
@@ -31,10 +30,3 @@ class MainWindow(QtWidgets.QMainWindow, main_window.Ui_MainWindow):
 
     def exit(self):
         pass
-
-# if __name__ == "__main__":
-#     app = QtWidgets.QApplication(sys.argv)
-#     app.setStyle("Fusion")
-#     window = MainWindow()
-#     window.show()
-#     sys.exit(app.exec_())

@@ -9,13 +9,11 @@ class MainWindow(QtWidgets.QMainWindow, statistic_figure.Ui_MainWindow):
     def __init__(self, parent=None):
         super(MainWindow, self).__init__(parent)
         self.setupUi(self, self.check_num())
-        # self.create_piechart(self)
         self.pushButton_4.clicked.connect(self.back)
 
 
     def setui(self, window):
         self.setupUi(window, self.check_num())
-        # self.create_piechart(window)
         self.pushButton_4.clicked.connect(self.back)
 
     def back(self):
@@ -45,7 +43,7 @@ class MainWindow(QtWidgets.QMainWindow, statistic_figure.Ui_MainWindow):
 
         slice_pass = series.slices()[0]
         print(slice_pass)
-        # slice_pass.setExploded(True)
+
         slice_pass.setLabelVisible(True)
         slice_pass.setPen(QtGui.QPen(QtCore.Qt.blue, 2))
         slice_pass.setBrush(QtCore.Qt.blue)
@@ -62,8 +60,6 @@ class MainWindow(QtWidgets.QMainWindow, statistic_figure.Ui_MainWindow):
         chart.createDefaultAxes()
 
         chart.setAnimationOptions(QtChart.QChart.SeriesAnimations)
-
-        # chart.setTitle("饼图")
 
         chart.legend().setVisible(True)
         chart.legend().setAlignment(QtCore.Qt.AlignBottom)

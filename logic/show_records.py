@@ -1,6 +1,4 @@
-import sys
-
-from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5 import QtCore, QtWidgets
 from UI import show_records
 import pickle
 
@@ -76,10 +74,3 @@ class MainWindow(QtWidgets.QMainWindow, show_records.Ui_MainWindow):
 
     def back(self):
         pass
-
-if __name__ == "__main__":
-    app = QtWidgets.QApplication(sys.argv)
-    app.setStyle("Fusion")
-    window = MainWindow()
-    window.show()
-    sys.exit(app.exec_())

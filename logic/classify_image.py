@@ -51,15 +51,12 @@ class Net(nn.Module):
 
 
 class MainWindow(QtWidgets.QMainWindow, classifier_window.Ui_MainWindow):
-    RESULT_STATISTIC = {'合格': 1, '不合格': 1}
     LABEL_2_SIZE = [531, 431]
 
     def __init__(self, parent=None):
         super(MainWindow, self).__init__(parent)
         self.setupUi(self)
         self.model = Net()
-        # self.modelPath = "./Trained Model/net_twoclass28.pth"
-        # self.modelPath = "X:\金相研磨图像识别项目\\pythonProject\\Trained Model\\net_twoclass28_test.pth"
         self.modelPath = "X:\金相研磨图像识别项目\\pythonProject\\Trained Model\\V1.0 model.pth"
         self.model.load_state_dict(torch.load(self.modelPath, map_location=torch.device('cpu')))
         self.image_path = None
@@ -80,8 +77,6 @@ class MainWindow(QtWidgets.QMainWindow, classifier_window.Ui_MainWindow):
     def setui(self, window):
         self.setupUi(window)
         self.model = Net()
-        # self.modelPath = "./Trained Model/net_twoclass28_test.pth"
-        # self.modelPath = "X:\金相研磨图像识别项目\\pythonProject\\Trained Model\\net_twoclass28.pth"
         self.modelPath = "X:\金相研磨图像识别项目\\pythonProject\\Trained Model\\V1.0 model.pth"
         self.model.load_state_dict(torch.load(self.modelPath, map_location=torch.device('cpu')))
         self.image_path = None
@@ -168,12 +163,7 @@ class MainWindow(QtWidgets.QMainWindow, classifier_window.Ui_MainWindow):
 
     def save_record(self):
         if self.image_path != None and self.result != None:
-            # if self.result == '合格':
-            #     MainWindow.RESULT_STATISTIC['合格'] += 1
-            # else:
-            #     MainWindow.RESULT_STATISTIC['不合格'] += 1
             path_list = self.image_path.split('/')
-            # image_name = path_list[-3] + '/' + path_list[-2] + '/' + path_list[-1]
             image_name = path_list[-1]
             one_img_info = [datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'), image_name, self.result]
             with open('X:\金相研磨图像识别项目\pythonProject\\results_record\\results.pickle', 'ab') as file:
